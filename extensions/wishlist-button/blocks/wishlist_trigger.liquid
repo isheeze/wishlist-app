@@ -1,0 +1,169 @@
+{% liquid
+assign p = all_products["bt30-enc-noise-canceling-wireless-bluetooth-earbuds-hifi-stereo-headphones-with-digital-display-charging-case-waterproof-gaming"]
+assign btnStyle = "floating-btn-style"
+
+    assign background = "#ffffff"
+    assign bottom = 20
+    assign left = 20
+    assign padding = 15
+    assign roundBtn = true
+
+assign iconWidth = "35"
+assign gap = 20
+assign itemsInRow = block.settings.items_in_a_row
+%}
+
+<div class="wishlist-trigger-btn-{{ block.id }} {{ btnStyle }}">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+    </svg>
+</div>
+<div class="wishlist-modal-{{ block.id }} open">
+    <div class="wishlist-modal-container">
+        <div class="wishlist-modal-close-bar">
+            <button class="wishlist-close-button wishlist-close-trigger">close</button>
+        </div>
+        <div class="wishlist-item-container">
+            <div>
+                <div>close</div>
+
+                <div>{{ p.images[0] | image_url: width: "400" | image_tag }}</div>
+                <div>
+                    <div>{{ p.title }}</div>
+                    <div>{{ p.price | money_with_currency }}</div>
+                </div>
+
+                <div>Add to cart</div>
+            </div>
+            <div>
+                <div>close</div>
+
+                <div>{{ p.images[0] | image_url: width: "400" | image_tag }}</div>
+                <div>
+                    <div>{{ p.title }}</div>
+                    <div>{{ p.price | money_with_currency }}</div>
+                </div>
+
+                <div>Add to cart</div>
+            </div>
+            <div>
+                <div>close</div>
+
+                <div>{{ p.images[0] | image_url: width: "400" | image_tag }}</div>
+                <div>
+                    <div>{{ p.title }}</div>
+                    <div>{{ p.price | money_with_currency }}</div>
+                </div>
+
+                <div>Add to cart</div>
+            </div>
+            <div>
+                <div>close</div>
+
+                <div>{{ p.images[0] | image_url: width: "400" | image_tag }}</div>
+                <div>
+                    <div>{{ p.title }}</div>
+                    <div>{{ p.price | money_with_currency }}</div>
+                </div>
+
+                <div>Add to cart</div>
+            </div>
+            <div>
+                <div>close</div>
+
+                <div>{{ p.images[0] | image_url: width: "400" | image_tag }}</div>
+                <div>
+                    <div>{{ p.title }}</div>
+                    <div>{{ p.price | money_with_currency }}</div>
+                </div>
+
+                <div>Add to cart</div>
+            </div>
+            <div>
+                <div>close</div>
+
+                <div>{{ p.images[0] | image_url: width: "400" | image_tag }}</div>
+                <div>
+                    <div>{{ p.title }}</div>
+                    <div>{{ p.price | money_with_currency }}</div>
+                </div>
+
+                <div>Add to cart</div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .wishlist-trigger-btn-{{ block.id }}.floating-btn-style{
+        background: {{ background }};
+        position: fixed;
+        bottom: {{ bottom }}px;
+        right: {{ left }}px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: {{ padding }}px;
+        {% if roundBtn %}
+        border-radius: 900px;
+        {% endif %}
+        box-shadow: 0px 0px 25px -16px black;
+        aspect-ratio: 1;
+        cursor: pointer;
+    }
+    .wishlist-trigger-btn-{{ block.id }} svg{
+        width: {{ iconWidth }}px;
+    }
+    .wishlist-modal-{{ block.id }}.open{
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        background: #0000004f;
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-modal-container{
+        width: 90%;
+        max-width: 800px;
+        margin: auto;
+        background: white;
+        height: 90%;
+        overflow-y: scroll;
+        position: relative;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-modal-close-bar{
+        position: sticky;
+        top: 0;
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px;
+    }
+    .wishlist-item-container{
+        display: flex;
+        flex-wrap: wrap;
+        gap: {{ gap }}px;
+        justify-content: center;
+    }
+    .wishlist-item-container > div{
+        width: calc((100% / {{ itemsInRow }}) - ({{ gap }}px * {{ itemsInRow | minus: 1 }} / {{ itemsInRow }}))
+    }
+</style>
+{% schema %}
+{
+    "name": "Wishlist Button",
+    "target": "body",
+    "settings": [
+        {
+            "label": "Items in one row",
+            "type": "range",
+            "id": "items_in_a_row",
+            "step": 1,
+            "min": 1,
+            "max": 4,
+            "default": 2
+        }
+    ]
+}
+{% endschema %}
