@@ -49,6 +49,15 @@ assign count = 1
   document.querySelector(".wishlist-btn-{{ block.id }}").addEventListener("click",function(){
     this.classList.toggle("wishlist-btn-{{ block.id }}-added")
   })
+  const requestOptions = {
+    method: "POST",
+    redirect: "follow"
+  };
+
+  fetch("https://timeless-tune.myshopify.com/apps/wishlist", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
 </script>
 {% schema %}
 {

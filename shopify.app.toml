@@ -3,7 +3,7 @@
 client_id = "22ed644d45dd3afc6053fe8528404a89"
 name = "Variant Description"
 handle = "variant-description-8"
-application_url = "https://thoroughly-regional-measurements-even.trycloudflare.com"
+application_url = "https://given-various-biol-venues.trycloudflare.com"
 embedded = true
 
 [build]
@@ -13,13 +13,13 @@ include_config_on_deploy = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products"
+scopes = "write_metaobject_definitions"
 
 [auth]
 redirect_urls = [
-  "https://thoroughly-regional-measurements-even.trycloudflare.com/auth/callback",
-  "https://thoroughly-regional-measurements-even.trycloudflare.com/auth/shopify/callback",
-  "https://thoroughly-regional-measurements-even.trycloudflare.com/api/auth/callback"
+  "https://given-various-biol-venues.trycloudflare.com/auth/callback",
+  "https://given-various-biol-venues.trycloudflare.com/auth/shopify/callback",
+  "https://given-various-biol-venues.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
