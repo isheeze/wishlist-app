@@ -61,7 +61,7 @@ export const action = async ({ request }) => {
     responseJson.data.productCreate.product.variants.edges[0].node.id;
   const variantResponse = await admin.graphql(
     `#graphql
-      mutation updateVariant($input: ProductVariantInput!) {
+      mutation shopifyRemixTemplateUpdateVariant($input: ProductVariantInput!) {
         productVariantUpdate(input: $input) {
           productVariant {
             id
@@ -88,11 +88,6 @@ export const action = async ({ request }) => {
   });
 };
 
-const selectProduct = async () => {
-  const selected = await shopify.resourcePicker({type: 'product'});
-  console.log(selected);
-}
-
 export default function Index() {
   const nav = useNavigation();
   const actionData = useActionData();
@@ -114,8 +109,8 @@ export default function Index() {
   return (
     <Page>
       <ui-title-bar title="Remix app template">
-        <button variant="primary" onClick={selectProduct}>
-          Select Product
+        <button variant="primary" onClick={generateProduct}>
+          Generate a product
         </button>
       </ui-title-bar>
       <BlockStack gap="500">

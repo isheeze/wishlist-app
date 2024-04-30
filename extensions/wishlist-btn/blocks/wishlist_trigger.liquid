@@ -1,0 +1,443 @@
+{% liquid
+assign p = all_products["bt30-enc-noise-canceling-wireless-bluetooth-earbuds-hifi-stereo-headphones-with-digital-display-charging-case-waterproof-gaming"]
+assign btnStyle = "floating-btn-style"
+
+    assign background = "#ffffff"
+    assign bottom = 20
+    assign left = 20
+    assign padding = 15
+    assign roundBtn = true
+
+assign iconWidth = "35"
+assign gap = 20
+assign itemsInRow = block.settings.items_in_a_row
+assign itemsAlign = "center"
+
+assign modalTitle = "Wishlist"
+assign roundedCorners = true
+
+assign modalBackground = ""
+assign cardBackground = ""
+assign cardBorderColor = "#ededed"
+assign textColor = ""
+
+assign shareTitle = "Link to your Wishlist"
+assign copyText = "Copy"
+assign copiedText = "Copied!"
+assign emptyWishlistNote = "Your Wishlist is empty!"
+%}
+
+<div class="wishlist-trigger-btn-{{ block.id }} {{ btnStyle }} wishlist-open-modal-trigger">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+    </svg>
+</div>
+<div class="wishlist-modal-{{ block.id }}">
+    <div class="wishlist-modal-overlay wishlist-close-trigger"></div>
+    <div class="wishlist-modal-container">
+        <div class="wishlist-modal-close-bar">
+            <div><h2>{{ modalTitle }}</h2></div>
+            <div>
+                <button class="wishlist-share-button wishlist-share-trigger">{% render "share-icon" %}</button>
+                <button class="wishlist-close-button wishlist-close-trigger">{% render "close-icon" %}</button>
+            </div>
+        </div>
+        <div class="wishlist-item-container">
+            
+            {% comment %}
+            <div class="wishlist-empty-state">
+                <div>
+                    {% render "empty-icon" %}
+                </div>
+                <div>
+                    {{ emptyWishlistNote }}
+                </div>
+            </div>
+            {% endcomment %}
+            <div class="wishlist-product-card">
+                <div class="wishlist-product-card-close">{% render "close-icon" %}</div>
+
+                <a href="{{ p.url }}">{{ p.images[0] | image_url: width: "400" | image_tag }}</a>
+                <div class="wishlist-info-container">
+                    <a href="{{ p.url }}">
+                        <div class="wishlist-product-title">{{ p.title }}</div>
+                        <div>{{ p.price | money_with_currency }}</div>
+                    </a>
+                    <div class="cart-btn" data-id="{{ p.first_available_variant.id }}">{% render "cart-icon" %}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %}
+    modal for share link
+{% endcomment %}
+<div class="wishlist-share-modal-{{ block.id }}">
+    <div class="wishlist-share-modal-overlay wishlist-share-close-trigger"></div>
+    <div class="wishlist-share-modal-container">
+        <div class="wishlist-share-modal-close-bar">
+            <div>{{ shareTitle }}</div>
+            <div>
+                <button class="wishlist-share-close-button wishlist-share-close-trigger">{% render "close-icon" %}</button>
+            </div>
+        </div>
+        <div class="wishlist-share-item-container">
+            <div class="wishlist-url-container">{{ 'https://timeless-tune.myshopify.com/?_ab=0&_fd=0&_sc=1' }}</div>
+            <button class="wishlist-url-copy-btn">{{ copyText }}</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const openModalBtns = document.querySelectorAll(".wishlist-open-modal-trigger")
+    const shareBtns = document.querySelectorAll(".wishlist-share-trigger")
+    const closeBtns = document.querySelectorAll(".wishlist-close-trigger")
+
+    const shareCloseBtns = document.querySelectorAll(".wishlist-share-close-trigger")
+    const urlCopyBtns = document.querySelectorAll(".wishlist-url-copy-btn")
+
+    const cardCloseBtns = document.querySelectorAll(".wishlist-modal-{{ block.id }} .wishlist-product-card-close")
+    const cardCartBtns = document.querySelectorAll(".wishlist-modal-{{ block.id }} .cart-btn")
+
+    for(openModalBtn of openModalBtns){
+        openModalBtn.addEventListener("click", openModalHandler)
+    }
+    for(shareBtn of shareBtns){
+        shareBtn.addEventListener("click", shareHandler)
+    }
+    for(closeBtn of closeBtns){
+        closeBtn.addEventListener("click", closeHandler)
+    }
+
+    
+    for(shareCloseBtn of shareCloseBtns){
+        shareCloseBtn.addEventListener("click", shareCloseHandler)
+    }
+    for(urlCopyBtn of urlCopyBtns){
+        urlCopyBtn.addEventListener("click", urlCopyHandler)
+    }
+
+    for(cardCloseBtn of cardCloseBtns){
+        cardCloseBtn.addEventListener("click", cardCloseHandler)
+    }
+    for(cardCartBtn of cardCartBtns){
+        cardCartBtn.addEventListener("click", cardCartHandler)
+    }
+
+    function openModalHandler(){
+        document.querySelector(".wishlist-modal-{{ block.id }}").classList.add("open")
+    }
+    function closeHandler(){
+        document.querySelector(".wishlist-modal-{{ block.id }}").classList.remove("open")
+    }
+    function shareHandler(){
+        document.querySelector(".wishlist-share-modal-{{ block.id }}").classList.add("open")
+        document.querySelector(".wishlist-url-copy-btn").innerText = "{{ copyText }}"
+    }
+
+    function shareCloseHandler(){
+        document.querySelector(".wishlist-share-modal-{{ block.id }}").classList.remove("open")
+    }
+    function urlCopyHandler(){
+        var copyText = document.querySelector(".wishlist-url-container");
+        navigator.clipboard.writeText(copyText.innerText)
+        document.querySelector(".wishlist-url-copy-btn").innerText = "{{ copiedText }}"
+    }
+
+    function cardCloseHandler(){
+
+    }
+    function cardCartHandler(){
+        this.innerHTML = `{% render 'loading-icon' %}`
+        this.classList.add("loading")
+
+        let formData = {
+            'items': [{
+                'id': this.getAttribute("data-id"),
+                'quantity': 1
+            }]
+        };
+        fetch(window.Shopify.routes.root + 'cart/add.js', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            this.innerHTML = `{% render 'cart-icon' %}`
+            this.classList.remove("loading")
+
+            return response.json();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+</script>
+<style>
+    @keyframes loadAnimation {
+        0%{
+            transform: rotate(0deg);
+        }
+        100%{
+            transform: rotate(360deg);
+        }
+    }
+    .loading{
+        animation: loadAnimation 0.8s linear infinite;
+    }
+
+    .wishlist-trigger-btn-{{ block.id }}.floating-btn-style{
+        background: {{ background }};
+        position: fixed;
+        bottom: {{ bottom }}px;
+        right: {{ left }}px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: {{ padding }}px;
+        {% if roundBtn %}
+        border-radius: 900px;
+        {% endif %}
+        box-shadow: 0px 0px 25px -16px black;
+        aspect-ratio: 1;
+        cursor: pointer;
+        z-index: 999;
+    }
+    .wishlist-trigger-btn-{{ block.id }} svg{
+        width: {{ iconWidth }}px;
+    }
+    .wishlist-modal-{{ block.id }} a{
+        color: inherit;
+        text-decoration: none;
+    }
+    .wishlist-modal-{{ block.id }},
+    .wishlist-share-modal-{{ block.id }}{
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: -100%;
+        left: 0;
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+    }
+    .wishlist-modal-{{ block.id }}.open,
+    .wishlist-share-modal-{{ block.id }}.open{
+        top: 0;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-modal-overlay,
+    .wishlist-share-modal-{{ block.id }} .wishlist-share-modal-overlay{
+        height: 100%;
+        width: 100%;
+        background: #0000004f;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        opacity: 0;
+        transition: opacity .5s;
+    }
+    .wishlist-modal-{{ block.id }}.open .wishlist-modal-overlay,
+    .wishlist-share-modal-{{ block.id }}.open .wishlist-share-modal-overlay{
+        opacity: 1;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-modal-container,
+    .wishlist-share-modal-{{ block.id }} .wishlist-share-modal-container{
+        width: 90%;
+        max-width: 800px;
+        margin: auto;
+        background: white;
+        max-height: 90%;
+        overflow-y: scroll;
+        position: relative;
+        {% if roundedCorners %}
+        border-radius: 8px;
+        {% endif %}
+        box-shadow: 0px 0px 25px -10px;
+        opacity: 0;
+        transition: opacity .5s;
+    }
+    .wishlist-share-modal-{{ block.id }} .wishlist-share-modal-container{
+        width: fit-content;
+    }
+    .wishlist-modal-{{ block.id }}.open .wishlist-modal-container,
+    .wishlist-share-modal-{{ block.id }}.open .wishlist-share-modal-container{
+        opacity: 1;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-modal-container::-webkit-scrollbar,
+    .wishlist-share-modal-{{ block.id }}.open .wishlist-share-modal-container::-webkit-scrollbar{
+    width: 8px;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-modal-container::-webkit-scrollbar-track,
+    .wishlist-share-modal-{{ block.id }}.open .wishlist-share-modal-container::-webkit-scrollbar-track {
+    display: none;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-modal-container::-webkit-scrollbar-thumb,
+    .wishlist-share-modal-{{ block.id }}.open .wishlist-share-modal-container::-webkit-scrollbar-thumb {
+    background: #e1e1e1;
+    {% if roundedCorners %}
+    border-radius: 10px;
+    {% endif %}
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-modal-container::-webkit-scrollbar-thumb:hover,
+    .wishlist-share-modal-{{ block.id }}.open .wishlist-share-modal-container::-webkit-scrollbar-thumb:hover {
+    background: #d1d1d1; 
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-modal-close-bar,
+    .wishlist-share-modal-{{ block.id }} .wishlist-share-modal-close-bar{
+        position: sticky;
+        top: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        z-index: 1;
+        background: white;
+        border-bottom: 1px solid #ededed;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-modal-close-bar h2{
+        font-weight: bold;
+        margin: 0;
+        margin-left: 10px;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-empty-state{
+        display: flex;
+        gap: 20px;
+        width: fit-content !important;
+        align-items: center;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-empty-state div:first-child{
+        line-height: 0;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-empty-state div:first-child svg{
+        width: 30px;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-item-container,
+    .wishlist-share-modal-{{ block.id }} .wishlist-share-item-container{
+        display: flex;
+        flex-wrap: wrap;
+        gap: {{ gap }}px;
+        {% case itemsAlign %}
+        {% when "center" %}
+            justify-content: center;
+        {% when "left" %}
+            justify-content: flex-start;
+        {% when "right" %}
+            justify-content: flex-end;
+        {% endcase %}
+        padding: 20px;
+        position: relative;
+        background: {{ modalBackground }};
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-item-container > div{
+        width: calc((100% / {{ itemsInRow }}) - ({{ gap }}px * {{ itemsInRow | minus: 1 }} / {{ itemsInRow }}))
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-product-card{
+        position: relative;
+        padding: 10px;
+        box-shadow: 0px 0px 25px -18px;
+        {% if roundedCorners %}
+        border-radius: 10px;
+        {% endif %}
+        background: #ffffff;
+        border: 1px solid {{ cardBorderColor }};
+        background: {{ cardBackground }};
+        color: {{ textColor }}
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-product-card-close{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        background: {{ cardBackground }};
+        padding: 4px;
+        border-radius: 50px;
+        line-height: 0;
+        height: auto;
+        opacity: 0.35;
+    }
+    .wishlist-modal-{{ block.id }} img{
+        max-width: 100%;
+        height: auto;
+        {% if roundedCorners %}
+        border-radius: 5px;
+        {% endif %}
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-info-container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-info-container .wishlist-product-title{
+        line-height: 1;
+        font-weight: bold;
+    }
+    .{
+        padding: 0;
+        margin: 0;
+        margin-left: 10px;
+        font-weight: bold;
+    }
+    .wishlist-modal-close-bar > div:has(.wishlist-close-button),
+    .wishlist-share-modal-close-bar > div:has(.wishlist-share-close-button){
+        display: flex;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-close-button,
+    .wishlist-modal-{{ block.id }} .wishlist-share-button,
+    .wishlist-share-modal-{{ block.id }} .wishlist-share-close-button{
+        background: none;
+        border: none;
+        display: flex;
+    }
+    .wishlist-modal-{{ block.id }} .cart-btn{
+        display: flex;
+        cursor: pointer;
+    }
+    .wishlist-modal-{{ block.id }} .cart-btn > svg{
+        width: 18px;
+    }
+    .wishlist-modal-{{ block.id }} .wishlist-close-button > svg,
+    .wishlist-modal-{{ block.id }} .wishlist-share-button > svg,
+    .wishlist-modal-{{ block.id }} .wishlist-product-card-close > svg,
+    .wishlist-share-modal-{{ block.id }} .wishlist-share-close-button > svg
+    {
+        width: 17px;
+        cursor: pointer;
+    }
+    .wishlist-share-modal-{{ block.id }} .wishlist-url-container{
+        background: #474747;
+        padding: 10px;
+        border-radius: 5px;
+        color: #e9e9e9;
+    }
+    .wishlist-share-modal-{{ block.id }} .wishlist-url-copy-btn{
+        background: #efefef;
+        border: none;
+        height: auto;
+        position: absolute;
+        top: 5px;
+        padding: 5px 8px;
+        border-radius: 20px;
+        right: 10px;
+        box-shadow: 1px 2px 10px -5px;
+        cursor: pointer;
+    }
+</style>
+{% schema %}
+{
+    "name": "Wishlist Button",
+    "target": "body",
+    "settings": [
+        {
+            "label": "Items in one row",
+            "type": "range",
+            "id": "items_in_a_row",
+            "step": 1,
+            "min": 1,
+            "max": 4,
+            "default": 2
+        }
+    ]
+}
+{% endschema %}
